@@ -1,7 +1,8 @@
 __author__ = 'MatthewHan'
 from django import forms
 from decimal import Decimal
-class AddProductForm(forms.Form):
+from .models import Product
+class ProductForm(forms.Form):
     name = forms.CharField(min_length=8,label='Name')
     MANUFACTURERS = [
         ('Kenneth Cole', 'Kenneth Cole'),
@@ -11,3 +12,5 @@ class AddProductForm(forms.Form):
     manufacturer = forms.ChoiceField(choices=MANUFACTURERS)
     price = forms.DecimalField(max_digits=10,decimal_places=2,min_value = Decimal("0.01"))
     description = forms.CharField(widget=forms.Textarea(attrs={'class':'materialize-textarea'}),max_length=50)
+    class Meta:
+        model = Product

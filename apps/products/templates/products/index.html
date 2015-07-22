@@ -38,23 +38,27 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>
-                Kenneth Cole
-            </td>
-            <td>
-                Wrist Watch
-            </td>
-            <td>
-                75
-            </td>
-            <td>
-                March 14 2014
-            </td>
-            <td>
-                Edit Delete
-            </td>
-        </tr>
+        {% if products %}
+            {% for product in products %}
+                <tr>
+                    <td>
+                        {{ product.manufacturer }}
+                    </td>
+                    <td>
+                        {{ product.name }}
+                    </td>
+                    <td>
+                        {{ product.price }}
+                    </td>
+                    <td>
+                        {{ product.created_at }}
+                    </td>
+                    <td>
+                        <a href="/products/{{product.id}}/edit">Edit</a> Delete
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
         </tbody>
     </table>
     <div class="row">
@@ -62,7 +66,7 @@
             <div class="card hoverable">
                 <div class="card-content black-text">
                     <span class="card-title black-text">Add a Product</span>
-                    <form action="{% url 'products:create' %}" method = "post">
+                    <form action="/products/" method = "post">
                         {% csrf_token %}
                         {% if form.name.errors %}
                             {% for error in form.name.errors %} {{ error }}
