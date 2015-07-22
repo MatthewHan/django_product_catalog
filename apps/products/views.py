@@ -42,9 +42,30 @@ class ProductView(View):
         }
         return render(request, 'products/show.html', context)
     def post(self, request, product_id):
-        product = Product.objects.get(id=product_id)
-        print 'in ProductView Post'
-        return redirect('/products')
+        #Update Method
+        if request.POST.get("_method") == 'put':
+            print 'in ProductView Post Update'
+            form = ProductForm(request.POST)
+            if form.is_valid():
+                print 'in ProductView Post Update Form Valid'
+                name = request.POST.get("name")
+                manufacturer = request.POST.get("manufacturer")
+                price = request.POST.get("price")
+                description = request.POST.get("description", False)
+                Product.objects.filter(id=product_id).update(name = name, manufacturer = manufacturer, price = price, description = description)
+                return redirect('/products')
+            else:
+                print 'in ProductView Post Update Form Invalid'
+                context = {
+                    'form': form,
+                }
+                return render(request, 'products/edit.html', context)
+        #Destroy Method
+        else:
+            print 'in ProductView Post Delete'
+            Product.objects.filter(id=product_id).delete()
+            return redirect('/products')
+
 # def index(request):
 #     products = Product.objects.all()
 #     data = {

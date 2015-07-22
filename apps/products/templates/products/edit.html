@@ -21,6 +21,7 @@
                 <div class="card-content black-text">
                     <span class="card-title black-text">Update a Product</span>
                     <form action="/products/{{product.id}}/" method = "post">
+                        <input type="hidden" name ="_method" value = "put">
                         {% csrf_token %}
                         {% if form.name.errors %}
                             {% for error in form.name.errors %} {{ error }}
