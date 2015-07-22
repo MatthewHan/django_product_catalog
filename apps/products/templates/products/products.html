@@ -4,11 +4,106 @@
     <meta charset="UTF-8">
     <title>List of Products</title>
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'interests/css/materialize.css' %}">
+    <link rel="stylesheet" href="{% static 'products/css/materialize.css' %}">
     <script type = 'text/javascript' src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type = 'text/javascript' src = "{% static 'interests/js/materialize.js' %}"></script>
+    <script type = 'text/javascript' src = "{% static 'products/js/materialize.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('select').material_select();
+        });
+    </script>
 </head>
 <body>
-
+<div class="container">
+    <h4>Trader's Store</h4>
+    <h5>Product Listing:</h5>
+    <table class="hoverable responsive-table">
+        <thead>
+        <tr>
+            <th>
+                Manufacturer
+            </th>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Price ($)
+            </th>
+            <th>
+                Date Added
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                Kenneth Cole
+            </td>
+            <td>
+                Wrist Watch
+            </td>
+            <td>
+                75
+            </td>
+            <td>
+                March 14 2014
+            </td>
+            <td>
+                Edit Delete
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col s6">
+            <div class="card hoverable">
+                <div class="card-content black-text">
+                    <span class="card-title black-text">Add a Product</span>
+                    <form action="{% url 'products:create' %}" method = "post">
+                        {% csrf_token %}
+                        {% if form.name.errors %}
+                            {% for error in form.name.errors %} {{ error }}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="input-field">
+                            {{form.name}}
+                            <label for="name">Product Name</label>
+                        </div>
+                        {% if form.manufacturers.errors %}
+                            {% for error in form.manufacturers.errors %} {{ error }}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="input-field">
+                            {{form.manufacturer}}
+                            <label for="manufacturer">Manufacturer/Brand</label>
+                        </div>
+                        {% if form.price.errors %}
+                            {% for error in form.price.errors %} {{ error }}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="input-field">
+                            {{form.price}}
+                            <label for="price">Price</label>
+                        </div>
+                        {% if form.description.errors %}
+                            {% for error in form.description.errors %} {{ error }}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="input-field">
+                            {{form.description}}
+                            <label for="description">Description</label>
+                        </div>
+                </div>
+                <div class="card-action">
+                    <button class="waves-effect waves-light btn white-text">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
